@@ -10,6 +10,22 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 
+app.post('/login', passport.authenticate('login', {
+  successRedirect: '/success',
+  failureRedirect: '/login',
+  session: false
+
+
+}));
+
+  app.get('/success', function (req, res){
+  res.send("Hey, hello from the server!");
+})
+
+app.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/login.html');
+});
+
 passport.use('login', new LocalStrategy(function (username, password, done) {
   var authenticated = username === "John" && password === "Smith";
   
@@ -19,3 +35,5 @@ passport.use('login', new LocalStrategy(function (username, password, done) {
     return done(null, false);       
   }
 }));
+
+app.listen(8000);
