@@ -1,8 +1,14 @@
 var express = require('express');
 var app = express();
 var passport = require('passport');
+var bodyParser = require('body-parser');
 
 var LocalStrategy = require('passport-local').Strategy;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(passport.initialize());
 
 passport.use('login', new LocalStrategy(function (username, password, done) {
   var authenticated = username === "John" && password === "Smith";
